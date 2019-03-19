@@ -1,8 +1,12 @@
 <%= form_with(model: post, local: true) do |form| %>
+
 <% if post.errors.any? %>
-<div id="error_explanation">
+<div class="form-error">
+    <!--
     <h2>
-        <%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
+        <%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:
+    </h2>
+    -->
     <ul>
         <% post.errors.full_messages.each do |message| %>
         <li>
@@ -12,6 +16,7 @@
     </ul>
 </div>
 <% end %>
+
 
 <div class="form">
     <div class="form-body">

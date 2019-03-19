@@ -7,14 +7,10 @@
             <div class="post-time">
                 <%= @post.created_at %>
             </div>
-            <ul class="post-menus">
-                <li>
-                    <%= link_to "編集" , edit_post_path(@post) %>
-                </li>
-                <li>
-                    <%= link_to "削除" , :post, :method => :delete %>
-                </li>
-            </ul>
+            <div class="post-menus">
+                <%= link_to "編集" , edit_post_path(@post) %>
+                <%= link_to "削除" , :post, :method => :delete %>
+            </div>
         </div>
     </div>
 </div>
