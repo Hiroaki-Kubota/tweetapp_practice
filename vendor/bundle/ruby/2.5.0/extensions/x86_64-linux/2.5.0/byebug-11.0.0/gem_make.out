@@ -1,0 +1,19 @@
+current directory: /mnt/c/Users/hiroaki/work/heroku/tweet_app/vendor/bundle/ruby/2.5.0/gems/byebug-11.0.0/ext/byebug
+/usr/bin/ruby2.5 -r ./siteconf20190319-152-1bj09cz.rb extconf.rb
+creating Makefile
+
+current directory: /mnt/c/Users/hiroaki/work/heroku/tweet_app/vendor/bundle/ruby/2.5.0/gems/byebug-11.0.0/ext/byebug
+make "DESTDIR=" clean
+
+current directory: /mnt/c/Users/hiroaki/work/heroku/tweet_app/vendor/bundle/ruby/2.5.0/gems/byebug-11.0.0/ext/byebug
+make "DESTDIR="
+compiling breakpoint.c
+compiling byebug.c
+compiling context.c
+compiling locker.c
+compiling threads.c
+linking shared-object byebug/byebug.so
+
+current directory: /mnt/c/Users/hiroaki/work/heroku/tweet_app/vendor/bundle/ruby/2.5.0/gems/byebug-11.0.0/ext/byebug
+make "DESTDIR=" install
+/usr/bin/install -c -m 0755 byebug.so ./.gem.20190319-152-1d60q6l/byebug
