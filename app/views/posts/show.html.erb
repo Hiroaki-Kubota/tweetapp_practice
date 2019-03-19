@@ -8,7 +8,7 @@
                 <%= @post.created_at %>
             </div>
             <div class="post-menus">
-                <%= link_to "編集" , edit_post_path(@post) %>
+                <%= link_to "編集" , :edit_post %>
                 <%= link_to "削除" , :post, :method => :delete %>
             </div>
         </div>

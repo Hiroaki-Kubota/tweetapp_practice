@@ -2,6 +2,10 @@ ja:
   activerecord:
     models:
       post: 投稿
+      user: ユーザー
     attributes:
       post:
         content: 投稿内容
+      user:
+        name: ユーザー名
+        email: メールアドレス
