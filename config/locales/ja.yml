@@ -9,3 +9,4 @@ ja:
       user:
         name: ユーザー名
         email: メールアドレス
+        image_name: 画像

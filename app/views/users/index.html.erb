@@ -4,8 +4,11 @@
 
     <% @users.each do |user| %>
     <div class="users-index-item">
-    <div class="user-right">
-      <%= link_to(user.name, user) %>
+      <div class="user-left">
+        <img class="about-img" src="/user_images/<%= user.ref_image_name %>" />
+      </div>
+      <div class="user-right">
+        <%= link_to(user.name, user) %>
       </div>
     </div>
     <% end %>
