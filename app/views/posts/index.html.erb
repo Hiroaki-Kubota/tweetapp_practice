@@ -3,11 +3,11 @@
     <% @posts.each do |post| %>
     <div class="posts-index-item">
       <div class="post-left">
-        <img src="<%= post.user.image_source_path %>">
+        <img src="<%= post.user&.image_source_path %>">
       </div>
       <div class="post-right">
         <div class="post-user-name">
-          <%= link_to(post.user.name, post.user) %>
+          <%= link_to(post.user&.name, post.user) %>
         </div>
         <%= link_to(post.content, post) %>
       </div>
