@@ -25,7 +25,8 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     @user = User.new(user_params)
-
+    upload_image
+    remove_image
     respond_to do |format|
       if @user.save
         format.html { redirect_to @user, notice: 'ユーザー登録が完了しました' }
@@ -40,12 +41,8 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
-    if params[:user][:image]
-      @user.image_name = "#{@user.id}.jpg"
-      image = params[:user][:image]
-      File.binwrite("public/user_images/#{@user.image_name}", image.read)
-    end
-
+    upload_image
+    remove_image
     respond_to do |format|
       if @user.update(user_params)
         format.html { redirect_to @user, notice: 'ユーザー情報を編集しました' }
@@ -77,5 +74,24 @@ class UsersController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
     params.require(:user).permit(:name, :email, :image_name)
+  end
+
+  def image_path(image_name)
+    File.join('public/user_images', image_name || '')
+  end
+
+  def upload_image
+    return unless params[:user][:image]
+
+    @user.image_name = "#{@user.id}.jpg"
+    image = params[:user][:image]
+    File.binwrite(image_path(@user.image_name), image.read)
+  end
+
+  def remove_image
+    return unless ActiveRecord::Type::Boolean.new.cast(params[:user][:remove_img])
+
+    File.delete(image_path(@user.image_name)) if @user.image_name && File.exist?(image_path(@user.image_name))
+    @user.image_name = nil
   end
 end
