@@ -22,7 +22,8 @@
       </li>
     </ul>
 
-    <% @user.likes.inject([]){ |posts, like| posts << Post.find(like.post_id) }.sort{ |a, b| b[:created_at] <=> a[:created_at] }.each do |post| %>
+    
+    <% @like_posts.each do |post| %>
     <div class="posts-index-item">
       <div class="post-left">
         <img src="<%= post.user&.image_source_path %>">

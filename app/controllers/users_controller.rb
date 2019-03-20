@@ -64,7 +64,11 @@ class UsersController < ApplicationController
     redirect_to(:login, notice: 'ログアウトしました')
   end
 
-  def likes; end
+  def likes
+    @like_posts = Post.joins(:likes).where(likes: { user_id: @user.id }).order(created_at: :desc)
+    # which is better?
+    # @like_posts = @user.likes.inject([]) { |posts, like| posts << Post.find(like.post_id) }.sort { |a, b| b[:created_at] <=> a[:created_at] }
+  end
 
   private
 
