@@ -77,7 +77,7 @@ class UsersController < ApplicationController
   def remove_image
     return unless ActiveRecord::Type::Boolean.new.cast(params[:user][:remove_img])
 
-    File.delete(@user.image_path) if @user.image_name && File.exist?(image_path(@user.image_name))
+    File.delete(@user.image_path) if @user.image_name && File.exist?(@user.image_path)
     @user.image_name = nil
   end
 
