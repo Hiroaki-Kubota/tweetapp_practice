@@ -31,7 +31,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     upload_image
     remove_image
-    response_after_create() { @user.save }
+    response_after_create { @user.save }
   end
 
   # PATCH/PUT /users/1
@@ -39,7 +39,7 @@ class UsersController < ApplicationController
   def update
     upload_image
     remove_image
-    response_after_update() { @user.update(user_params) }
+    response_after_update { @user.update(user_params) }
   end
 
   # DELETE /users/1
@@ -56,15 +56,7 @@ class UsersController < ApplicationController
 
   def login
     @user = User.find_by(email: params[:email])&.authenticate(params[:password])
-    if @user
-      session[:user_id] = @user.id
-      redirect_to(:posts, notice: 'ログインしました')
-    else
-      @email = params[:email]
-      @password = params[:password]
-      flash.now[:notice] = 'メールアドレスまたはパスワードが間違っています'
-      render(:login_form)
-    end
+    response_after_login
   end
 
   def logout
@@ -93,7 +85,7 @@ class UsersController < ApplicationController
     @user.image_name = nil
   end
 
-  def response_after_create()
+  def response_after_create
     return unless block_given?
 
     respond_to do |format|
@@ -108,7 +100,7 @@ class UsersController < ApplicationController
     end
   end
 
-  def response_after_update()
+  def response_after_update
     return unless block_given?
 
     respond_to do |format|
@@ -119,6 +111,18 @@ class UsersController < ApplicationController
         format.html { render :edit }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
+    end
+  end
+
+  def response_after_login
+    if @user
+      session[:user_id] = @user.id
+      redirect_to(:posts, notice: 'ログインしました')
+    else
+      @email = params[:email]
+      @password = params[:password]
+      flash.now[:notice] = 'メールアドレスまたはパスワードが間違っています'
+      render(:login_form)
     end
   end
 
