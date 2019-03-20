@@ -1,0 +1,39 @@
+<div class="main user-show">
+  <div class="container">
+    <div class="user">
+      <img src="<%= @user.image_source_path %>" />
+      <h2>
+        <%= @user.name %>
+      </h2>
+      <p>
+        <%= @user.email %>
+      </p>
+      <% if @current_user.id == @user.id %>
+      <%= link_to('編集', :edit_user) %>
+      <% end %>
+    </div>
+
+    <ul class="user-tabs">
+      <li>
+        <%= link_to("投稿", "/users/#{@user.id}") %>
+      </li>
+      <li class="active">
+        <%= link_to("いいね!", "/users/#{@user.id}/likes") %>
+      </li>
+    </ul>
+
+    <% @user.likes.inject([]){ |posts, like| posts << Post.find(like.post_id) }.sort{ |a, b| b[:created_at] <=> a[:created_at] }.each do |post| %>
+    <div class="posts-index-item">
+      <div class="post-left">
+        <img src="<%= post.user&.image_source_path %>">
+      </div>
+      <div class="post-right">
+        <div class="post-user-name">
+          <%= link_to(post.user&.name, post.user) %>
+        </div>
+        <%= link_to(post.content, post) %>
+      </div>
+    </div>
+    <% end %>
+  </div>
+</div>
