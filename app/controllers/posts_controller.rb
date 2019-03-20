@@ -12,7 +12,9 @@ class PostsController < ApplicationController
     self.posts = Post.all.order(created_at: :desc)
   end
 
-  def show; end
+  def show
+    @likes_count = Like.where(post_id: @post.id).count
+  end
 
   def new
     self.post = Post.new

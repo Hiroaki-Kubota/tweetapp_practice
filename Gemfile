@@ -64,6 +64,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'bootstrap', '~> 4.1.1'
 gem 'jquery-rails'
 gem 'rails-i18n', '~> 5.1'
+gem 'font-awesome-sass', '~> 5.2.0'
 
 group :production do
   gem 'pg'
