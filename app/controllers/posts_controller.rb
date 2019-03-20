@@ -4,6 +4,7 @@
 class PostsController < ApplicationController
   before_action :set_post, only: %i[show edit update destroy]
   before_action :authenticate_user
+  before_action :ensure_correct_user, only: %i[edit update destroy]
   attr_accessor :posts
   attr_accessor :post
 
@@ -56,6 +57,11 @@ class PostsController < ApplicationController
   end
 
   private
+
+  def ensure_correct_user
+    @post = Post.find_by(id: params[:id])
+    redirect_to(:posts, notice: '権限がありません') unless @post.user_id == @current_user.id
+  end
 
   def set_post
     self.post = Post.find(params[:id])
