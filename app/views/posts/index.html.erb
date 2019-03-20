@@ -2,7 +2,15 @@
   <div class="container">
     <% @posts.each do |post| %>
     <div class="posts-index-item">
-      <%= link_to(post.content, post) %>
+      <div class="post-left">
+        <img src="<%= post.user.image_source_path %>">
+      </div>
+      <div class="post-right">
+        <div class="post-user-name">
+          <%= link_to(post.user.name, post.user) %>
+        </div>
+        <%= link_to(post.content, post) %>
+      </div>
     </div>
     <% end %>
   </div>

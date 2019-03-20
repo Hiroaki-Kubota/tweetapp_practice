@@ -1,12 +1,23 @@
 <div class="main posts-show">
     <div class="container">
         <div class="posts-show-item">
+            <div class="post-user-name">
+                <img src="<%= @post.user.image_source_path %>">
+                <%= link_to(@post.user.name, @post.user) %>
+            </div>
             <p>
                 <%= @post.content %>
             </p>
             <div class="post-time">
+                作成日時：
                 <%= @post.created_at %>
             </div>
+            <% unless @post.created_at == @post.updated_at %>
+            <div class="post-time">
+                最終更新：
+                <%= @post.updated_at %>
+            </div>
+            <% end %>
             <div class="post-menus">
                 <%= link_to "編集" , :edit_post %>
                 <%= link_to "削除" , :post, :method => :delete %>

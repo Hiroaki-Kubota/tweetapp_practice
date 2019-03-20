@@ -66,22 +66,18 @@ class UsersController < ApplicationController
 
   private
 
-  def image_path(image_name)
-    File.join('public/user_images', image_name || '')
-  end
-
   def upload_image
     return unless params[:user][:image]
 
     @user.image_name = "#{@user.id}.jpg"
     image = params[:user][:image]
-    File.binwrite(image_path(@user.image_name), image.read)
+    File.binwrite(@user.image_path, image.read)
   end
 
   def remove_image
     return unless ActiveRecord::Type::Boolean.new.cast(params[:user][:remove_img])
 
-    File.delete(image_path(@user.image_name)) if @user.image_name && File.exist?(image_path(@user.image_name))
+    File.delete(@user.image_path) if @user.image_name && File.exist?(image_path(@user.image_name))
     @user.image_name = nil
   end
 

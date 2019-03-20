@@ -18,7 +18,7 @@
 
     <%= form.label :image_name %>
     <div class="user user-show">
-      <img src="/user_images/<%= @user.ref_image_name %>" id="img_prev" />
+      <img src="<%= @user.image_source_path %>" id="img_prev" />
     </div>
     <div class="checkbox">
       <%= form.label :remove_img, '画像を削除する' %>

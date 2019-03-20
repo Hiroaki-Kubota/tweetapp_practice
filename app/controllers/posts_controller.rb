@@ -8,7 +8,7 @@ class PostsController < ApplicationController
   attr_accessor :post
 
   def index
-    self.posts = Post.all
+    self.posts = Post.all.order(created_at: :desc)
   end
 
   def show; end
@@ -18,7 +18,8 @@ class PostsController < ApplicationController
   end
 
   def create
-    self.post = Post.new(post_params)
+    post = Post.new(post_params)
+    post.user_id = @current_user.id
     respond_to do |format|
       if post.save
         format.html { redirect_to :posts, notice: '投稿を作成しました' }
@@ -61,6 +62,6 @@ class PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(:content)
+    params.require(:post).permit(:content, :user_id)
   end
 end
