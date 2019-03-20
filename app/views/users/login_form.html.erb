@@ -1,0 +1,16 @@
+<div class="main users-new">
+  <div class="container">
+    <h1 class="users-heading">ログイン</h1>
+    <div class="form users-form">
+      <div class="form-body">
+        <%= form_with url: login_path, local: true do |form| %>
+          <%= form.label 'メールアドレス'%>
+          <%= form.text_field :email %>
+          <%= form.label 'パスワード'%>
+          <%= form.password_field :password %>
+          <%= form.submit 'ログイン' %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

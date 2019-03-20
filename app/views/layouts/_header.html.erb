@@ -1,22 +1,38 @@
 <header>
-    <div class="header-logo">
-        <%= link_to('TweetApp', '/') %>
-    </div>
-    <ul class="header-menus">
-        <li>
-            <%= link_to('TweetAppとは', '/about') %>
-        </li>
-        <li>
-            <%= link_to('投稿一覧', '/posts') %>
-        </li>
-        <li>
-            <%= link_to('新規投稿', :new_post) %>
-        </li>
-         <li>
-            <%= link_to('ユーザー一覧', :users) %>
-        </li>
-        <li>
-            <%= link_to('新規登録', :new_user) %>
-        </li>
-    </ul>
+  <div class="header-logo">
+    <% if @current_user %>
+    <%= link_to('TweetApp', :posts) %>
+    <% else %>
+    <%= link_to('TweetApp', '/') %>
+    <% end %>
+  </div>
+  <ul class="header-menus">
+    <% if @current_user %>
+    <li>
+      <%= link_to(@current_user.name, "/users/#{@current_user.id}") %>
+    </li>
+    <li>
+      <%= link_to("投稿一覧", :posts) %>
+    </li>
+    <li>
+      <%= link_to("新規投稿", :new_post) %>
+    </li>
+    <li>
+      <%= link_to("ユーザー一覧", :users) %>
+    </li>
+    <li>
+      <%= link_to("ログアウト", :logout, method: :post) %>
+    </li>
+    <% else %>
+    <li>
+      <%= link_to("TweetAppとは", :about) %>
+    </li>
+    <li>
+      <%= link_to("新規登録", :new_user) %>
+    </li>
+    <li>
+      <%= link_to("ログイン", :login) %>
+    </li>
+    <% end %>
+  </ul>
 </header>
