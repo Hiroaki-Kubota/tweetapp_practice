@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# User
 class UsersController < ApplicationController
   before_action :set_user, only: %i[show edit update destroy]
 
@@ -27,15 +28,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     upload_image
     remove_image
-    respond_to do |format|
-      if @user.save
-        format.html { redirect_to @user, notice: 'ユーザー登録が完了しました' }
-        format.json { render :show, status: :created, location: @user }
-      else
-        format.html { render :new }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
-    end
+    response_after_update('ユーザー登録が完了しました', :created, :new) { @user.save }
   end
 
   # PATCH/PUT /users/1
@@ -43,15 +36,7 @@ class UsersController < ApplicationController
   def update
     upload_image
     remove_image
-    respond_to do |format|
-      if @user.update(user_params)
-        format.html { redirect_to @user, notice: 'ユーザー情報を編集しました' }
-        format.json { render :show, status: :ok, location: @user }
-      else
-        format.html { render :edit }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
-    end
+    response_after_update('ユーザー情報を編集しました', :ok, :edit) { @user.update(user_params) }
   end
 
   # DELETE /users/1
@@ -93,5 +78,19 @@ class UsersController < ApplicationController
 
     File.delete(image_path(@user.image_name)) if @user.image_name && File.exist?(image_path(@user.image_name))
     @user.image_name = nil
+  end
+
+  def response_after_update(succeed_message, succeed_status, failed_render)
+    return unless block_given?
+
+    respond_to do |format|
+      if yield
+        format.html { redirect_to @user, notice: succeed_message }
+        format.json { render :show, status: succeed_status, location: @user }
+      else
+        format.html { render failed_render }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
   end
 end
