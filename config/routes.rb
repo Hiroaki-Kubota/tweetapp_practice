@@ -25,5 +25,8 @@ Rails.application.routes.draw do
   patch 'posts/:id', to: 'posts#update'
   put 'posts/:id', to: 'posts#update'
   delete 'posts/:id', to: 'posts#destroy'
+
+  post 'likes/:post_id', to: 'likes#create'
+  delete 'likes/:post_id', to: 'likes#destroy'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
