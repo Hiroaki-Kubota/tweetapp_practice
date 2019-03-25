@@ -28,17 +28,17 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-    @user = User.new(user_params)
-    upload_image
+    @user = User.create(user_params)
     remove_image
+    upload_image
     response_after_create { @user.save }
   end
 
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
-    upload_image
     remove_image
+    upload_image
     response_after_update { @user.update(user_params) }
   end
 
