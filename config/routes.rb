@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  get '/', to: 'home#top'
+  get '/', to: 'home#top', as: 'home_top'
   get 'about', to: 'home#about'
 
   get 'users', to: 'users#index'

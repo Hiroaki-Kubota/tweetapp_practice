@@ -6,7 +6,7 @@ class LikesController < ApplicationController
   before_action :set_like, only: %i[destroy]
 
   def create
-    @like.save
+    @like&.save
     redirect_to post_path(id: params[:post_id])
   end
 
@@ -18,11 +18,11 @@ class LikesController < ApplicationController
   private
 
   def create_like
-    @like = Like.new(user_id: @current_user.id, post_id: params[:post_id])
+    @like = Like.new(user_id: @current_user&.id, post_id: params[:post_id])
   end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_like
-    @like = Like.find_by(user_id: @current_user.id, post_id: params[:post_id])
+    @like = Like.find_by(user_id: @current_user&.id, post_id: params[:post_id])
   end
 end

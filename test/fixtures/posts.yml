@@ -1,7 +1,13 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
+barebones:
+  content: MyText
+  user: barebones
+
 one:
   content: MyText
-
+  user: one
+  
 two:
   content: MyText
+  user: two

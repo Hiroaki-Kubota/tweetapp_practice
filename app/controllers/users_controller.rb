@@ -3,9 +3,9 @@
 # User
 class UsersController < ApplicationController
   before_action :set_user, only: %i[show likes edit update destroy]
-  before_action :authenticate_user, only: %i[index show likes edit update]
+  before_action :authenticate_user, only: %i[index show likes edit update destroy]
   before_action :forbid_login_user, only: %i[new create login_form login]
-  before_action :ensure_correct_user, only: %i[edit update]
+  before_action :ensure_correct_user, only: %i[edit update destroy]
 
   # GET /users
   # GET /users.json
