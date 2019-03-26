@@ -47,14 +47,12 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       post users_url, params: { user: { name: @new_user.name,
                                         email: @new_user.email,
                                         password: @new_user.password,
-                                        image_file: fixture_file_upload('public/user_images/default_user.png', 'image/png') } }
+                                        image_file: fixture_file_upload('files/images/user1.png', 'image/png') } }
     end
 
     assert_redirected_to(controller: :posts, action: :index)
-    File.open('public/user_images/default_user.png', 'r+b') do |file|
-      expected_image = file.read
-      assert_equal(expected_image, User.find_by(email: @new_user.email).image)
-    end
+    expected_image = file_fixture('images/user1.png').read
+    assert_equal(expected_image, User.find_by(email: @new_user.email).image)
   end
 
   test 'should not create user when logged in' do

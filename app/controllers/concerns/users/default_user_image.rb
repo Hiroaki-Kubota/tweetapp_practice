@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-DEFAULT_IMAGE_PATH = 'public/user_images/default_user.png'
+DEFAULT_IMAGE_PATH = 'app/assets/images/default_user.png'
 DEFAULT_IMAGE_TYPE = 'image/png'
 
 require 'singleton'
