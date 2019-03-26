@@ -3,6 +3,8 @@
 require 'test_helper'
 
 class UsersControllerTest < ActionDispatch::IntegrationTest
+  include UserImageHelper
+
   setup do
     @user = users(:barebones)
     @other_user = users(:one)
@@ -51,10 +53,9 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_redirected_to(controller: :posts, action: :index)
-    expected_image = Magick::Image.read('test/fixtures/files/images/user1.png').first
-    actual_image = Magick::Image.from_blob(User.find_by(email: @new_user.email).image).shift
-    diff = expected_image.difference(actual_image)
-    assert_equal(0, diff.sum)
+
+    diff = compare_user_image('user1.png', @new_user)
+    assert_equal(0, diff)
   end
 
   test 'should not create user when logged in' do
@@ -107,6 +108,31 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     patch user_url(@user), params: { user: { email: 'new@email.com' } }
     assert_redirected_to user_url(@user)
     assert_equal 'new@email.com', User.find_by_id(@user.id)&.email
+  end
+
+  test 'should update own user with image' do
+    login_as(@user)
+
+    diff = compare_user_image('user1.png', @user)
+    assert_equal(0, diff)
+
+    patch user_url(@user), params: { user: { image_file: fixture_file_upload('files/images/user2.png', 'image/png') } }
+    assert_redirected_to user_url(@user)
+
+    diff = compare_user_image('user2.png', @user)
+    assert_equal(0, diff)
+  end
+
+  test 'should update own user remove image' do
+    login_as(@user)
+
+    diff = compare_user_image('user1.png', @user)
+    assert_equal(0, diff)
+
+    patch user_url(@user), params: { user: { remove_image: '1' } }
+    assert_redirected_to user_url(@user)
+
+    assert_equal(nil, User.find(@user.id).image)
   end
 
   test 'should redirect to posts when update other user' do

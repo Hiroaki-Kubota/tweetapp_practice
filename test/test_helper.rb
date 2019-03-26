@@ -3,6 +3,7 @@
 ENV['RAILS_ENV'] ||= 'test'
 require_relative '../config/environment'
 require 'rails/test_help'
+require 'base64'
 
 module ActiveSupport
   class TestCase
@@ -10,6 +11,9 @@ module ActiveSupport
     fixtures :all
 
     # Add more helper methods to be used by all tests here...
+    def self.image_data(file_name)
+      Base64.encode64(IO.read("test/fixtures/files/images/#{file_name}")).gsub(/^/, '    ')
+    end
   end
 end
 module SignInHelper
@@ -36,5 +40,14 @@ module ActionDispatch
 
   class SystemTestCase
     include SignInHelper::SystemTestCase
+  end
+end
+
+module UserImageHelper
+  def compare_user_image(expected_image_name, actual_user)
+    expected_image = Magick::Image.read("test/fixtures/files/images/#{expected_image_name}").first
+    actual_image = Magick::Image.from_blob(User.find_by(email: actual_user.email).image).shift
+    diff = expected_image.difference(actual_image)
+    diff.sum
   end
 end

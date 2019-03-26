@@ -4,6 +4,8 @@ barebones:
   name: barebones
   email: barebones@google.com
   password_digest: <%= BCrypt::Password.create('barebones', cost: 5) %>
+  image: !binary |
+<%= ActiveSupport::TestCase::image_data 'user1.png' %>
 
 one:
   name: one
