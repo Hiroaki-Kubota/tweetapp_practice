@@ -2,6 +2,9 @@
 
 # User
 class UsersController < ApplicationController
+  include Concerns::Users::Login
+  include Concerns::Users::Image
+
   before_action :set_user, only: %i[show likes edit update destroy image]
   before_action :authenticate_user, only: %i[index show likes edit update destroy]
   before_action :forbid_login_user, only: %i[new create login_form login]
@@ -59,35 +62,10 @@ class UsersController < ApplicationController
     end
   end
 
-  def login_form; end
-
-  def login
-    @user = User.find_by(email: params[:email])&.authenticate(params[:password])
-    if @user
-      login_succeed_response
-    else
-      login_failed_response
-    end
-  end
-
-  def logout
-    session[:user_id] = nil
-    redirect_to(:login, notice: 'ログアウトしました')
-  end
-
   def likes
     @like_posts = Post.joins(:likes).where(likes: { user_id: @user.id }).order(created_at: :desc)
     # which is better?
     # @like_posts = @user.likes.inject([]) { |posts, like| posts << Post.find(like.post_id) }.sort { |a, b| b[:created_at] <=> a[:created_at] }
-  end
-
-  def image
-    if @user&.image
-      send_data(@user.image, type: @user.image_content_type, disposition: :inline)
-    else
-      default_image = UsersHelper.default_user_image
-      send_data(default_image.image, type: default_image.content_type, disposition: :inline)
-    end
   end
 
   private
@@ -121,44 +99,8 @@ class UsersController < ApplicationController
     end
   end
 
-  def login_succeed_response
-    session[:user_id] = @user.id
-    respond_to do |format|
-      format.html { redirect_to :posts, notice: 'ログインしました' }
-      format.json { render :posts, status: :ok }
-    end
-  end
-
-  def login_failed_response
-    @email = params[:email]
-    @password = params[:password]
-    flash.now[:notice] = 'メールアドレスまたはパスワードが間違っています'
-    respond_to do |format|
-      format.html { render :login_form, notice: 'ログインしました' }
-      format.json { render :posts, status: :ok }
-    end
-  end
-
-  def update_image
-    if ActiveRecord::Type::Boolean.new.cast(params[:user][:remove_image])
-      unset_image
-    elsif params[:user][:image]
-      set_image
-    end
-  end
-
-  def set_image
-    @user.image = params[:user][:image].read
-    @user.image_content_type = params[:user][:image].content_type
-  end
-
-  def unset_image
-    @user.image = nil
-    @user.image_content_type = nil
-  end
-
   def ensure_correct_user
-    redirect_to(:posts, notice: '権限がありません') if @current_user.id != params[:id].to_i
+    redirect_to(:posts, notice: '権限がありません') if @current_user&.id != params[:id]&.to_i
   end
 
   # Use callbacks to share common setup or constraints between actions.
@@ -168,6 +110,6 @@ class UsersController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
-    params.require(:user).permit(:name, :email, :image_name, :password)
+    params.require(:user).permit(:name, :email, :password)
   end
 end
