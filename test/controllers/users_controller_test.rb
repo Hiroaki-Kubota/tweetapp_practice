@@ -51,8 +51,10 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_redirected_to(controller: :posts, action: :index)
-    expected_image = file_fixture('images/user1.png').read
-    assert_equal(expected_image, User.find_by(email: @new_user.email).image)
+    expected_image = Magick::Image.read('test/fixtures/files/images/user1.png').first
+    actual_image = Magick::Image.from_blob(User.find_by(email: @new_user.email).image).shift
+    diff = expected_image.difference(actual_image)
+    assert_equal(0, diff.sum)
   end
 
   test 'should not create user when logged in' do
