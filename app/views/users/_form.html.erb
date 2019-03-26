@@ -18,13 +18,13 @@
 
     <%= form.label :image_name %>
     <div class="user user-show">
-      <img src="<%= user_image_path(@user, id: @user&.id || 0) %>" id='img_prev'>
+      <img src="<%= user_image_path(@user, id: @user&.id || 0) %>" id='preview_image'>
     </div>
     <div class="checkbox">
-      <%= form.label :remove_img, '画像を削除する' %>
-      <%= form.check_box :remove_img, :as => :boolean %>
+      <%= form.label :remove_image, '画像を削除する' %>
+      <%= form.check_box :remove_image, :as => :boolean %>
     </div>
-    <%= form.file_field :image, id: :user_img %>
+    <%= form.file_field :image, id: :selected_image %>
 
     <script type="text/javascript">
       $(function () {
@@ -32,12 +32,12 @@
           if (input.files && input.files[0]) {
             var reader = new FileReader();
             reader.onload = function (e) {
-              $('#img_prev').attr('src', e.target.result);
+              $('#preview_image').attr('src', e.target.result);
             }
             reader.readAsDataURL(input.files[0]);
           }
         }
-        $("#user_img").change(function () {
+        $("#selected_image").change(function () {
           readURL(this);
         });
       });

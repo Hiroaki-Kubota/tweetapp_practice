@@ -28,18 +28,25 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-    @user = User.create(user_params)
-    @user.image = params[:user][:image]&.read
-    @user.image_content_type = params[:user][:image]&.content_type
-    response_after_create { @user.save }
+    @user = User.new(user_params)
+    update_image
+    if @user.save
+      create_succeed_response
+    else
+      create_failed_response
+    end
   end
 
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
-    @user.image = params[:user][:image]&.read
-    @user.image_content_type = params[:user][:image]&.content_type
-    response_after_update { @user.update(user_params) }
+    update_image
+
+    if @user.update(user_params)
+      update_succeed_response
+    else
+      update_failed_response
+    end
   end
 
   # DELETE /users/1
@@ -56,7 +63,11 @@ class UsersController < ApplicationController
 
   def login
     @user = User.find_by(email: params[:email])&.authenticate(params[:password])
-    response_after_login
+    if @user
+      login_succeed_response
+    else
+      login_failed_response
+    end
   end
 
   def logout
@@ -81,45 +92,69 @@ class UsersController < ApplicationController
 
   private
 
-  def response_after_create
-    return unless block_given?
-
+  def create_succeed_response
     respond_to do |format|
-      if yield
-        session[:user_id] = @user.id
-        format.html { redirect_to :posts, notice: 'ユーザー登録が完了しました' }
-        format.json { render :show, status: :created, location: @user }
-      else
-        format.html { render :new }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  def response_after_update
-    return unless block_given?
-
-    respond_to do |format|
-      if yield
-        format.html { redirect_to @user, notice: 'ユーザー情報を編集しました' }
-        format.json { render :show, status: :ok, location: @user }
-      else
-        format.html { render :edit }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  def response_after_login
-    if @user
       session[:user_id] = @user.id
-      redirect_to(:posts, notice: 'ログインしました')
-    else
-      @email = params[:email]
-      @password = params[:password]
-      flash.now[:notice] = 'メールアドレスまたはパスワードが間違っています'
-      render(:login_form)
+      format.html { redirect_to :posts, notice: 'ユーザー登録が完了しました' }
+      format.json { render :show, status: :created, location: @user }
     end
+  end
+
+  def create_failed_response
+    respond_to do |format|
+      format.html { render :new }
+      format.json { render json: @user.errors, status: :unprocessable_entity }
+    end
+  end
+
+  def update_succeed_response
+    respond_to do |format|
+      format.html { redirect_to @user, notice: 'ユーザー情報を編集しました' }
+      format.json { render :show, status: :ok, location: @user }
+    end
+  end
+
+  def update_failed_response
+    respond_to do |format|
+      format.html { render :edit }
+      format.json { render json: @user.errors, status: :unprocessable_entity }
+    end
+  end
+
+  def login_succeed_response
+    session[:user_id] = @user.id
+    respond_to do |format|
+      format.html { redirect_to :posts, notice: 'ログインしました' }
+      format.json { render :posts, status: :ok }
+    end
+  end
+
+  def login_failed_response
+    @email = params[:email]
+    @password = params[:password]
+    flash.now[:notice] = 'メールアドレスまたはパスワードが間違っています'
+    respond_to do |format|
+      format.html { render :login_form, notice: 'ログインしました' }
+      format.json { render :posts, status: :ok }
+    end
+  end
+
+  def update_image
+    if ActiveRecord::Type::Boolean.new.cast(params[:user][:remove_image])
+      unset_image
+    elsif params[:user][:image]
+      set_image
+    end
+  end
+
+  def set_image
+    @user.image = params[:user][:image].read
+    @user.image_content_type = params[:user][:image].content_type
+  end
+
+  def unset_image
+    @user.image = nil
+    @user.image_content_type = nil
   end
 
   def ensure_correct_user
