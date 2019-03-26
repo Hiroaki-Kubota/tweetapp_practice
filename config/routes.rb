@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   put 'users/:id', to: 'users#update'
   delete 'users/:id', to: 'users#destroy'
   get 'users/:id/likes', to: 'users#likes'
+  get 'users/:id/image', to: 'users#image', as: 'user_image'
 
   get 'login' => 'users#login_form'
   post 'login' => 'users#login'

@@ -2,7 +2,7 @@
 
 # User
 class UsersController < ApplicationController
-  before_action :set_user, only: %i[show likes edit update destroy]
+  before_action :set_user, only: %i[show likes edit update destroy image]
   before_action :authenticate_user, only: %i[index show likes edit update destroy]
   before_action :forbid_login_user, only: %i[new create login_form login]
   before_action :ensure_correct_user, only: %i[edit update destroy]
@@ -29,16 +29,16 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     @user = User.create(user_params)
-    remove_image
-    upload_image
+    @user.image = params[:user][:image]&.read
+    @user.image_content_type = params[:user][:image]&.content_type
     response_after_create { @user.save }
   end
 
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
-    remove_image
-    upload_image
+    @user.image = params[:user][:image]&.read
+    @user.image_content_type = params[:user][:image]&.content_type
     response_after_update { @user.update(user_params) }
   end
 
@@ -70,22 +70,16 @@ class UsersController < ApplicationController
     # @like_posts = @user.likes.inject([]) { |posts, like| posts << Post.find(like.post_id) }.sort { |a, b| b[:created_at] <=> a[:created_at] }
   end
 
+  def image
+    if @user&.image
+      send_data(@user.image, type: @user.image_content_type, disposition: :inline)
+    else
+      default_image = UsersHelper.default_user_image
+      send_data(default_image.image, type: default_image.content_type, disposition: :inline)
+    end
+  end
+
   private
-
-  def upload_image
-    return unless params[:user][:image]
-
-    @user.image_name = "#{@user.id}.jpg"
-    image = params[:user][:image]
-    File.binwrite(@user.image_path, image.read)
-  end
-
-  def remove_image
-    return unless ActiveRecord::Type::Boolean.new.cast(params[:user][:remove_img])
-
-    File.delete(@user.image_path) if @user.image_name && File.exist?(@user.image_path)
-    @user.image_name = nil
-  end
 
   def response_after_create
     return unless block_given?
@@ -134,7 +128,7 @@ class UsersController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_user
-    @user = User.find(params[:id])
+    @user = User.find_by_id(params[:id])
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

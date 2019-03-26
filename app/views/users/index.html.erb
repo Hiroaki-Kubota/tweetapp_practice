@@ -5,7 +5,7 @@
     <% @users.each do |user| %>
     <div class="users-index-item">
       <div class="user-left">
-        <img class="about-img" src="<%= user.image_source_path %>" />
+        <%= image_tag user_image_path(user, class: 'about-img') %>
       </div>
       <div class="user-right">
         <%= link_to(user.name, user) %>

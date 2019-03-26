@@ -2,7 +2,7 @@
     <div class="container">
         <div class="posts-show-item">
             <div class="post-user-name">
-                <img src="<%= @post.user&.image_source_path %>">
+                <%= image_tag user_image_path(@post.user) %>
                 <%= link_to(@post.user&.name, @post.user) %>
             </div>
             <p>

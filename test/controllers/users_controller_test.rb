@@ -34,7 +34,9 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test 'should create user' do
     assert_difference('User.count') do
-      post users_url, params: { user: { name: @new_user.name, email: @new_user.email, image_path: @new_user.image_path, password: @new_user.password } }
+      post users_url, params: { user: { name: @new_user.name,
+                                        email: @new_user.email,
+                                        password: @new_user.password } }
     end
 
     assert_redirected_to(controller: :posts, action: :index)
@@ -43,7 +45,9 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   test 'should not create user when logged in' do
     login_as(@user)
     assert_no_difference('User.count') do
-      post users_url, params: { user: { name: @new_user.name, email: @new_user.email, image_path: @new_user.image_path, password: @new_user.password } }
+      post users_url, params: { user: { name: @new_user.name,
+                                        email: @new_user.email,
+                                        password: @new_user.password } }
     end
 
     assert_redirected_to(controller: :posts, action: :index)

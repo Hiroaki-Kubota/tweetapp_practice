@@ -3,7 +3,7 @@
     <% @posts.each do |post| %>
     <div class="posts-index-item">
       <div class="post-left">
-        <img src="<%= post.user&.image_source_path %>">
+        <%= image_tag user_image_path(post.user) %>
       </div>
       <div class="post-right">
         <div class="post-user-name">
