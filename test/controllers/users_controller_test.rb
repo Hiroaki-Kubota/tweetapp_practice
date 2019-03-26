@@ -47,7 +47,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       post users_url, params: { user: { name: @new_user.name,
                                         email: @new_user.email,
                                         password: @new_user.password,
-                                        image: fixture_file_upload('public/user_images/default_user.png', 'image/png') } }
+                                        image_file: fixture_file_upload('public/user_images/default_user.png', 'image/png') } }
     end
 
     assert_redirected_to(controller: :posts, action: :index)
