@@ -9,7 +9,9 @@
   <ul class="header-menus">
     <% if @current_user %>
     <li>
-      <%= link_to(@current_user.name, "/users/#{@current_user.id}") %>
+      <%= link_to(@current_user) do %>
+        <%= image_tag user_image_path(@current_user) %>
+      <% end %>
     </li>
     <li>
       <%= link_to("投稿一覧", :posts) %>
@@ -19,6 +21,9 @@
     </li>
     <li>
       <%= link_to("ユーザー一覧", :users) %>
+    </li>
+    <li>
+      <%= link_to("メッセージ", :messages) %>
     </li>
     <li>
       <%= link_to("ログアウト", :logout, method: :post) %>

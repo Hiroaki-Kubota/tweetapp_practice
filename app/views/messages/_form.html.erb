@@ -13,8 +13,8 @@
   </div>
   <% end %>
   <div class="form-body">
-    <%= form.text_area :from_user_id, value: @current_user&.id, hidden: true %>
-    <%= form.select :to_user_id, User.select_list %>
+    <%= form.text_area :from_user_id, value: @current_user.id, hidden: true %>
+    <%= form.text_area :to_user_id, value: message.to_user_id, hidden: true %>
     <%= form.text_area :content %>
     <%= form.submit action_name %>
   </div>

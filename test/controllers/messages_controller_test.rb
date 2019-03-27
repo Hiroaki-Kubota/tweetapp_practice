@@ -41,7 +41,7 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
       post messages_url, params: { message: { from_user_id: @user_one.id, to_user_id: @user_two.id, content: __method__.to_s } }
     end
 
-    assert_redirected_to(controller: :users, action: :messages, id: @user_one.id)
+    assert_redirected_to(controller: :users, action: :messages, id: @user_two.id)
   end
 
   test 'should redirect to login when create message without login' do

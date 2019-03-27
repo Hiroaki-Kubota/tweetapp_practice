@@ -1,6 +1,15 @@
 <div class="message-time">
-  <%= message.updated_at %>
+  <%= message.created_at %>
 </div>
+<% if message.updated_at != message.created_at %>
+<div class="message-time">
+  <%= "#{message.updated_at} 編集済" %>
+</div>
+<% end %>
+
+<%
+=begin%>
+
 <div class="message-user-left">
   <%= link_to( user_messages_url(left_user(message, user).id) ) do %>
   <%= image_tag user_image_path(left_user(message, user)) %>
@@ -17,4 +26,26 @@
   <%= image_tag user_image_path(right_user(message, user)) %>
   <%= right_user(message, user).name %>
   <% end %>
+</div>
+<%
+=end%>
+
+<div class="kaiwa">
+  <figure class="kaiwa-img-left">
+    <%= link_to( user_messages_url(left_user(message, user).id) ) do %>
+    <%= image_tag user_image_path(left_user(message, user)) %>
+    <%= left_user(message, user).name %>
+    <% end %>
+  </figure>
+  <figure class="kaiwa-img-right">
+    <%= link_to( user_messages_url(right_user(message, user).id) ) do %>
+    <%= image_tag user_image_path(right_user(message, user)) %>
+    <%= right_user(message, user).name %>
+    <% end %>
+  </figure>
+  <div class="<%= kaiwa_class_name(message, user) %>">
+    <%= link_to(message) do %>
+    <%= simple_format(message.content) %>
+    <% end %>
+  </div>
 </div>

@@ -1,7 +1,11 @@
 <div class="main posts-new">
   <div class="container">
-    <h1 class="form-heading">編集する</h1>
+    <h1 class="form-heading">投稿を編集する</h1>
 
+    <div class="posts-index-item">
+    元の内容
+    <%= render 'show_post', post: @post %>
+</div>
     <%= render 'form', post: @post , action_name: '保存' %>
   </div>
 </div>

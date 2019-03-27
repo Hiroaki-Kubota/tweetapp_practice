@@ -1,6 +1,9 @@
-<h1>Editing Message</h1>
-
-<%= render 'form', message: @message %>
-
-<%= link_to 'Show', @message %> |
-<%= link_to 'Back', messages_path %>
+<div class="main messages-new">
+  <div class="container">
+    <h1 class="form-heading">メッセージを編集する</h1>
+    <div class="messages-show-item">
+      <%= render 'show_message', message: @message, user: @current_user %>
+    </div>
+    <%= render 'form', message: @message , action_name: '保存' %>
+  </div>
+</div>

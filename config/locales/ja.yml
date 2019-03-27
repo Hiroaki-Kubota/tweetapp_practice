@@ -3,6 +3,7 @@ ja:
     models:
       post: 投稿
       user: ユーザー
+      message: メッセージ
     attributes:
       post:
         content: 投稿内容
@@ -11,3 +12,5 @@ ja:
         email: メールアドレス
         image_name: 画像
         password: パスワード
+      message:
+        content: メッセージ

@@ -15,7 +15,7 @@ class Message < ApplicationRecord
 
   # Methods
   class << Message
-    def recent(from_user, to_user)
+    def recent(from_user, to_user = from_user)
       if from_user == to_user
         where(from_user_id: from_user.id).or(where(to_user_id: from_user.id))
       else
