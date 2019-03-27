@@ -16,17 +16,7 @@
     </ul>
 
     <% @user.posts.order(created_at: :desc).each do |post| %>
-    <div class="posts-index-item">
-      <div class="post-left">
-        <%= image_tag user_image_path(post.user) %>
-      </div>
-      <div class="post-right">
-        <div class="post-user-name">
-          <%= link_to(post.user&.name, post.user) %>
-        </div>
-        <%= link_to(post.content, post) %>
-      </div>
-    </div>
+      <%= render 'posts/show_post', post: post %>
     <% end %>
   </div>
 </div>

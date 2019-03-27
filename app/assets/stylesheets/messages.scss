@@ -71,4 +71,35 @@
 .message-time {
     color: #8899a6;
     margin-bottom: 10px;
+    text-align: left
+}
+
+.messages-show-item .fa {
+    font-size: 16px;
+    margin-right: 3px;
+}
+
+.message-menus {
+    float: right;
+}
+
+.message-menus a,
+.message-menus input {
+    color: #8899a6;
+    text-decoration: underline;
+    font-size: 14px;
+}
+
+/* messages/new ================================ */
+.messages-new textarea {
+    font-size: 20px;
+    padding: 10px;
+    min-height: 140px;
+    border: 1px solid rgb(216, 218, 223);
+    resize: none;
+}
+
+.messages-new textarea::-webkit-input-placeholder {
+    font-size: 24px;
+    opacity: 0.5;
 }

@@ -7,6 +7,9 @@
     <%= @user.email %>
   </p>
   <% if @current_user.id == @user.id %>
-  <%= link_to('編集', :edit_user) %>
+    <%= link_to('編集', :edit_user) %>
+  <% end %>
+  <% unless @user == @current_user %>
+    <%= render 'messages/message_form', message: Message.new, from_user: @current_user, to_user: @user %>
   <% end %>
 </div>

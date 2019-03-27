@@ -13,10 +13,11 @@
   </div>
   <% end %>
   <div class="form-body">
+    <h5><%= to_user.name %> へメッセージ</h5>
     <%= form.text_area :from_user_id, value: from_user.id, hidden: true %>
     <%= form.text_area :to_user_id, value: to_user.id, hidden: true %>
     <%= form.text_area :content %>
-    <%= form.submit action_name %>
+    <%= form.submit '送信' %>
   </div>
 </div>
 <% end %>

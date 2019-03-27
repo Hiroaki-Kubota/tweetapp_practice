@@ -1,21 +1,13 @@
 <div class="main messagess-show">
   <div class="container">
     <div class="messages-show-item">
-      <div class="message-user-left">
-        <%= link_to( left_user(@message, @current_user) ) do %>
-          <%= image_tag user_image_path(left_user(@message, @current_user)) %>
-          <%= left_user(@message, @current_user).name %>
-        <% end %>
-      </div>
-      <div class="<%= body_class_name(@message, @current_user) %>">
-        <%= link_to(@message.content, @message) %>
-      </div>
-      <div class="message-user-right">
-        <%= link_to(right_user(@message, @current_user)) do %>
-          <%= image_tag user_image_path(right_user(@message, @current_user)) %>
-          <%= right_user(@message, @current_user).name %>
-        <% end %>
-      </div>
+      <%= render 'show_message', message: @message, user: @current_user %>
     </div>
+    <% if @message.sent_by?(@current_user) %>
+    <div class="message-menus">
+      <%= link_to "編集" , edit_message_url(@message) %>
+      <%= link_to "削除" , message_url(@message), :method => :delete %>
+    </div>
+    <% end %>
   </div>
 </div>
