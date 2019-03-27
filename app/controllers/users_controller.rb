@@ -4,9 +4,10 @@
 class UsersController < ApplicationController
   include Concerns::Users::Login
   include Concerns::Users::Image
+  include Concerns::Users::Messages
 
-  before_action :set_user, only: %i[show likes edit update destroy image]
-  before_action :authenticate_user, only: %i[index show likes edit update destroy]
+  before_action :set_user, only: %i[show likes edit update destroy image messages]
+  before_action :authenticate_user, only: %i[index show likes edit update destroy messages]
   before_action :forbid_login_user, only: %i[new create login_form login]
   before_action :ensure_correct_user, only: %i[edit update destroy]
 

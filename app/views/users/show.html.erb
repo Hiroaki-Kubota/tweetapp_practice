@@ -1,17 +1,7 @@
 <div class="main user-show">
   <div class="container">
-    <div class="user">
-      <%= image_tag user_image_path(@user) %>
-      <h2>
-        <%= @user.name %>
-      </h2>
-      <p>
-        <%= @user.email %>
-      </p>
-      <% if @current_user.id == @user.id %>
-      <%= link_to('編集', :edit_user) %>
-      <% end %>
-    </div>
+
+    <%= render 'show_user' %>
 
     <ul class="user-tabs">
       <li class="active">
@@ -19,6 +9,9 @@
       </li>
       <li>
         <%= link_to("いいね!", "/users/#{@user.id}/likes") %>
+      </li>
+      <li>
+        <%= link_to("メッセージ", "/users/#{@user.id}/messages") %>
       </li>
     </ul>
 

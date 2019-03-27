@@ -12,8 +12,12 @@ Rails.application.routes.draw do
   patch 'users/:id', to: 'users#update'
   put 'users/:id', to: 'users#update'
   delete 'users/:id', to: 'users#destroy'
+
   get 'users/:id/likes', to: 'users#likes'
+
   get 'users/:id/image', to: 'users#image', as: 'user_image'
+
+  get 'users/:id/messages', to: 'users#messages', as: 'user_messages'
 
   get 'login' => 'users#login_form'
   post 'login' => 'users#login'
@@ -30,5 +34,7 @@ Rails.application.routes.draw do
 
   post 'likes/:post_id', to: 'likes#create'
   delete 'likes/:post_id', to: 'likes#destroy'
+
+  resources :messages
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
