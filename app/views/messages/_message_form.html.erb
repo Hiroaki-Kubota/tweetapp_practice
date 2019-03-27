@@ -1,0 +1,22 @@
+<%= form_with(model: message, local: true) do |form| %>
+<div class="form">
+  <% if message.errors.any? %>
+  <div class="form-error">
+    <!--<h2><%= pluralize(message.errors.count, "error") %> prohibited this message from being saved:</h2>-->
+    <ul>
+      <% message.errors.full_messages.each do |message| %>
+      <li>
+        <%= message %>
+      </li>
+      <% end %>
+    </ul>
+  </div>
+  <% end %>
+  <div class="form-body">
+    <%= form.text_area :from_user_id, value: from_user.id, hidden: true %>
+    <%= form.text_area :to_user_id, value: to_user.id, hidden: true %>
+    <%= form.text_area :content %>
+    <%= form.submit action_name %>
+  </div>
+</div>
+<% end %>

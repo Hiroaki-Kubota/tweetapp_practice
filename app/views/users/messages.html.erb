@@ -1,0 +1,41 @@
+<div class="main user-show">
+  <div class="container">
+
+    <%= render 'show_user' %>
+
+    <ul class="user-tabs">
+      <li>
+        <%= link_to("投稿", "/users/#{@user.id}") %>
+      </li>
+      <li>
+        <%= link_to("いいね!", "/users/#{@user.id}/likes") %>
+      </li>
+      <li class="active">
+        <%= link_to("メッセージ", "/users/#{@user.id}/messages") %>
+      </li>
+    </ul>
+
+    <% @messages.each do |message| %>
+    <div class="messages-index-item">
+      <div class="message-user-left">
+        <%= link_to( left_user(message, @user) ) do %>
+          <%= image_tag user_image_path(left_user(message, @user)) %>
+          <%= left_user(message, @user).name %>
+        <% end %>
+      </div>
+      <div class="<%= body_class_name(message, @user) %>">
+        <%= link_to(message.content, message) %>
+      </div>
+      <div class="message-user-right">
+        <%= link_to(right_user(message, @user)) do %>
+          <%= image_tag user_image_path(right_user(message, @user)) %>
+          <%= right_user(message, @user).name %>
+        <% end %>
+      </div>
+    </div>
+    <% end %>
+
+    <% unless @user == @current_user %>
+      <%= render 'messages/message_form', message: Message.new, from_user: @current_user, to_user: @user %>
+    <% end %>
+</div>

@@ -1,0 +1,16 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one_two:
+  from_user: one
+  to_user: two
+  content: from one to two
+
+two_one:
+  from_user: two
+  to_user: one
+  content: from two to one
+
+two_barebones:
+  from_user: two
+  to_user: barebones
+  content: from two to barebones

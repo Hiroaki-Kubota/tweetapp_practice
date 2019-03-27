@@ -1,0 +1,21 @@
+<div class="main messagess-show">
+  <div class="container">
+    <div class="messages-show-item">
+      <div class="message-user-left">
+        <%= link_to( left_user(@message, @current_user) ) do %>
+          <%= image_tag user_image_path(left_user(@message, @current_user)) %>
+          <%= left_user(@message, @current_user).name %>
+        <% end %>
+      </div>
+      <div class="<%= body_class_name(@message, @current_user) %>">
+        <%= link_to(@message.content, @message) %>
+      </div>
+      <div class="message-user-right">
+        <%= link_to(right_user(@message, @current_user)) do %>
+          <%= image_tag user_image_path(right_user(@message, @current_user)) %>
+          <%= right_user(@message, @current_user).name %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

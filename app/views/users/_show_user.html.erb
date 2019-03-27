@@ -1,0 +1,12 @@
+<div class="user">
+  <%= image_tag user_image_path(@user) %>
+  <h2>
+    <%= @user.name %>
+  </h2>
+  <p>
+    <%= @user.email %>
+  </p>
+  <% if @current_user.id == @user.id %>
+  <%= link_to('編集', :edit_user) %>
+  <% end %>
+</div>
