@@ -132,7 +132,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     patch user_url(@user), params: { user: { remove_image: '1' } }
     assert_redirected_to user_url(@user)
 
-    assert_equal(nil, User.find(@user.id).image)
+    assert_nil(User.find(@user.id).image)
   end
 
   test 'should redirect to posts when update other user' do
