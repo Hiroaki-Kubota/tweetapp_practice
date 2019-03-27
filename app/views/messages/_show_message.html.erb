@@ -34,13 +34,17 @@
   <figure class="kaiwa-img-left">
     <%= link_to( user_messages_url(left_user(message, user).id) ) do %>
     <%= image_tag user_image_path(left_user(message, user)) %>
+    <div class="kaiwa-img-description">
     <%= left_user(message, user).name %>
+    </div>
     <% end %>
   </figure>
   <figure class="kaiwa-img-right">
     <%= link_to( user_messages_url(right_user(message, user).id) ) do %>
     <%= image_tag user_image_path(right_user(message, user)) %>
+    <div class="kaiwa-img-description">
     <%= right_user(message, user).name %>
+    </div>
     <% end %>
   </figure>
   <div class="<%= kaiwa_class_name(message, user) %>">

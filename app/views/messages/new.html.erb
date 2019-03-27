@@ -1,5 +1,10 @@
-<h1>New Message</h1>
-
-<%= render 'form', message: @message %>
-
-<%= link_to 'Back', messages_path %>
+<div class="main messages-new">
+  <div class="container">
+    <h1 class="form-heading">メッセージを作成する</h1>
+    <div class="messages-show-item">
+      <%= image_tag user_image_path(@message.to_user) %>
+      <%= "#{@message.to_user.name} へのメッセージ" %>
+    </div>
+    <%= render 'form', message: @message , action_name: '保存' %>
+  </div>
+</div>
